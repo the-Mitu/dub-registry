@@ -53,8 +53,8 @@ class GogsRepository : Repository {
 		foreach_reverse (tag; tags) {
 			try {
 				auto tagname = tag["name"].get!string;
-				Json commit = readJson(getAPIURLPrefix()~"/repos/"~m_owner~"/"~m_project~"/commits/"~tag["commit"]["sha"].get!string~"?token="~m_authToken, true, true);
-				ret ~= RefInfo(tagname, tag["commit"]["sha"].get!string, SysTime.fromISOExtString(commit["commit"]["committer"]["date"].get!string));
+				Json commit = readJson(getAPIURLPrefix()~"/repos/"~m_owner~"/"~m_project~"/commits/"~tag["commit"]["id"].get!string~"?token="~m_authToken, true, true);
+				ret ~= RefInfo(tagname, tag["commit"]["id"].get!string, SysTime.fromISOExtString(commit["commit"]["committer"]["date"].get!string));
 				logDebug("Found tag for %s/%s: %s", m_owner, m_project, tagname);
 			} catch( Exception e ){
 				throw new Exception("Failed to process tag "~tag["name"].get!string~": "~e.msg);
@@ -71,8 +71,8 @@ class GogsRepository : Repository {
 		RefInfo[] ret;
 		foreach_reverse( branch; branches ){
 			auto branchname = branch["name"].get!string;
-			Json commit = readJson(getAPIURLPrefix()~"/repos/"~m_owner~"/"~m_project~"/commits/"~branch["commit"]["sha"].get!string~"?token="~m_authToken, true, true);
-			ret ~= RefInfo(branchname, branch["commit"]["sha"].get!string, SysTime.fromISOExtString(commit["commit"]["committer"]["date"].get!string));
+			Json commit = readJson(getAPIURLPrefix()~"/repos/"~m_owner~"/"~m_project~"/commits/"~branch["commit"]["id"].get!string~"?token="~m_authToken, true, true);
+			ret ~= RefInfo(branchname, branch["commit"]["id"].get!string, SysTime.fromISOExtString(commit["commit"]["committer"]["date"].get!string));
 			logDebug("Found branch for %s/%s: %s", m_owner, m_project, branchname);
 		}
 		return ret;
