@@ -143,8 +143,8 @@ void main()
 	// start the web server
 	auto settings = new HTTPServerSettings;
 	settings.hostName = hostname;
-	settings.bindAddresses = ["127.0.0.1"];
-	settings.port = 8005;
+	settings.bindAddresses = ["0.0.0.0", "127.0.0.1"];
+	settings.port = 9095;
 	settings.sessionStore = new MemorySessionStore;
 	settings.useCompressionIfPossible = true;
 	readOption("bind", &settings.bindAddresses[0], "Sets the address used for serving.");
